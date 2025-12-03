@@ -8,9 +8,11 @@ def write_rapport(chaine):
 
 #Charger le fichier avec Pandas 
 df = pd.read_csv('ventes.csv')
+
 # 2. Ajouter une colonne montant_total (quantite × prix_unitaire)
 df['montant_total']= df['quantite'] * df['prix_unitaire']
 print(df)
+
 # 3. Calculer le total des ventes par vendeur 
 par_vendeur = df.groupby('vendeur')['montant_total'].sum()
 print(f"Total des ventes par vendeur : {par_vendeur}")
