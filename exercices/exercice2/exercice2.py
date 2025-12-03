@@ -16,6 +16,14 @@ print(df)
 # - Extraire le jour et jour_semaine de la date 
 df['jour']= df['date'].dt.day
 df['jour_semaine']=df['date'].dt.day_name()
+df = df.replace({'jour_semaine': { 'Monday': 'Lundi',
+    'Tuesday': 'Mardi',
+    'Wednesday': 'Mercredi',
+    'Thursday': 'Jeudi',
+    'Friday': 'Vendredi',
+    'Saturday': 'Samedi',
+    'Sunday': 'Dimanche'}})
+
 print(df)
 # 4. Analyser : - Total des ventes par région 
 par_region = df.groupby('region')['quantite'].sum()
@@ -30,5 +38,5 @@ print(jour1)
 # - Feuille "Données" : Données nettoyées - Feuille "Par région" : Agrégation par région - Feuille "Par produit" : Agrégation par produit
 with pd.ExcelWriter('ventes_analyse.xlsx') as writer :
     df.to_excel(writer,sheet_name='Données',index = False)
-    par_region.to_excel(writer,sheet_name='Par région',index = False)
-    produit1.to_excel(writer,sheet_name='Par produit',index = False)
+    par_region.to_excel(writer,sheet_name='Par région')
+    produit1.to_excel(writer,sheet_name='Par produit')
