@@ -1,7 +1,7 @@
 import pandas as pd
 #Charger les données avec Pandas
 df = pd.read_excel('ventes_janvier.xlsx')
-
+print(df['date'].dtype)
 # 2. Nettoyer : - Supprimer les doublons 
 df.drop_duplicates()
 
@@ -28,9 +28,11 @@ print(df)
 # 4. Analyser : - Total des ventes par région 
 par_region = df.groupby('region')['quantite'].sum()
 print(par_region)
+
 # - Produit le plus vendu (en quantité) 
 produit1 = df.groupby('produit')['quantite'].sum().nlargest(1)
 print(produit1)
+
 # - Jour de la semaine avec le plus de ventes 
 jour1 = df.groupby('jour_semaine')['quantite'].sum().nlargest(1)
 print(jour1)
