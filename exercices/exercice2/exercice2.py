@@ -1,7 +1,7 @@
 import pandas as pd
 #Charger les données avec Pandas
 df = pd.read_excel('ventes_janvier.xlsx')
-print(df['date'].dtype)
+df['date'].dtype
 # 2. Nettoyer : - Supprimer les doublons 
 df.drop_duplicates()
 

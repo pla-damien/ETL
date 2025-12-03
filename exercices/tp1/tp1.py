@@ -1,4 +1,5 @@
 import pandas as pd
+from pathlib import Path
 ## TP 1 - Pipeline CSV vers Excel
 
 # **Objectif** : Créer un pipeline de traitement automatisé
@@ -14,6 +15,18 @@ import pandas as pd
 dfA = pd.read_csv('magasin_A.csv')
 dfB = pd.read_csv('magasin_B.csv')
 dfC= pd.read_csv('magasin_C.csv')
+
+dataframe = []
+for file in Path(".").rglob("*.csv"):
+    df = pd.read_csv(file)
+    magasin = file.split("_")[1].split(".")[0]
+    
+    df['magasin'] = magasin
+    dataframe.append(df)
+
+    print(file)
+
+df_all = pd.concat(dataframe,ignore_index=True)
 
 # 2. Ajouter une colonne `magasin` (A, B ou C)
 dfA['magasin'] = "A"
@@ -36,7 +49,7 @@ print(df_all)
 df_toto_mag = df_all.groupby('magasin')['montant_total'].sum()
 print(df_toto_mag)
 #    - Feuille "Par vendeur" : Performance des vendeurs
-df_toto_vendeur = df_all.groupby('vendeur')['montant_total'].sum()
+df_toto_vendeur = df_all.groupby('magasin','vendeur')['montant_total'].sum()
 print(df_toto_vendeur)
 #    - Feuille "Top produits" : 10 produits les plus vendus
 df_top_produit = df_all.groupby('produit')['quantite'].sum().sort_values(ascending=False).head(10)
