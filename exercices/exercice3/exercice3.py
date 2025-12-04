@@ -21,9 +21,7 @@ for user in users:
     print(f"Nom : {user['name']} ,email : {user['email']}")
 
 # Récupérer tous les posts de l'utilisateur avec userId=1
-params = {
-     "userId": 1
-}
+params = {"userId": 1}
 responce = requests.get(POST_URL, params=params)
 print(responce)
 posts = responce.json()
@@ -31,17 +29,13 @@ print(posts)
 
 # Compter combien de posts chaque utilisateur a créé
 for user in users:
-    params = {
-     "userId": user['id']
-    }
+    params = {"userId": user['id']}
     responce = requests.get(POST_URL, params=params)
     nb =  responce.json()
-    print(f"L'utilisateur {user['id']} a effectué {len(nb)}")
+    print(f"L'utilisateur {user['id']} a effectué {len(nb)} posts.")
 
 # Récupérer les commentaires du post id=1
-params = {
-    "postId": 1
-}
+params = {"postId": 1}
 responce = requests.get(COMMENT_URL, params=params)
 print(responce)
 comments = responce.json()
@@ -55,13 +49,11 @@ post_id = []
 post_title = []
 nb_comment = []
 for post in posts :
-    if compteur < 10:
+    if compteur < 10: 
         post_id.append(post['id'])
         post_title.append(post['title'])
         compteur +=1
-        params = {
-        "postId": post['id']
-        }
+        params = {"postId": post['id']}
         responce = requests.get(COMMENT_URL, params=params)
         comments = responce.json()
         nb_comment.append(len(comments))
