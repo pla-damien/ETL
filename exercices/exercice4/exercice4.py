@@ -19,7 +19,8 @@ for country in data:
     pays1 = {"nom" :country['name']['common'],
              "capitale" : country['capital'][0],
              "population" : country['population'],
-             "superfice" : country['area']
+             "superfice" : country['area'],
+             "langue" : country['languages']
              }
     list_country.append(pays1)
 print(list_country)
@@ -42,6 +43,23 @@ print(pays_max)
 with pd.ExcelWriter("pays_europe.xlsx") as writer:
     df.to_excel(writer,index=False)
 
+# Bonus  Top par langue parlée
+# a partir des mêmes données, identifier les 3 langues les plus parlées en Europe (en termes de population totale des pays où elles sont langue officielle).
+# créer un tableau langues_europe avec : langue, nombre de pays, population totale concernée.
+# sauvegarder ce tableau dans une nouvelle feuille de pays_europe.xlsx.
+ 
+most_language = df.explode('langue')
 
+langues_stats = most_language.groupby('langue').agg(
+    nb_pays=('nom', 'count'),
+    population_totale=('population', 'sum')
+)
+
+langues_stats = langues_stats.nlargest(3,'population_totale')
+print(langues_stats)
+with pd.ExcelWriter("pays_europe.xlsx",mode="a") as writer:
+    langues_stats.to_excel(writer,sheet_name='population',index=True)
+
+# print(langues_stats)
 # API : https://restcountries.com/v3.1
 
